@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Newsletter Incendios' %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="/" class="logo">🔥 Incendios Locales</a>
+    <nav>
+        <a href="/">Noticias</a>
+        <a href="/preguntas">Preguntas</a>
+        <!-- <a href="/foro">Foro</a> TODO-->
+        <% if (user) { %>
+            <% if (puede('noticia.crear') || puede('pregunta.responder')) { %>
+                <a href="/admin">Panel</a>
+            <% } %>
+            <form method="POST" action="/logout" style="display:inline">
+            <button type="submit" class="link-btn">Salir</button>
+            </form>
+        <% } else { %>
+            <a href="/login">Entrar</a>
+            <a href="/signin">Registrarse</a>
+        <% } %>
+    </nav>
+  </header>
+  <main class="container">

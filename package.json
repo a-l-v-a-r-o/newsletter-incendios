@@ -1,17 +1,21 @@
 {
   "name": "newsletter-incendios",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "alvaro",
   "license": "ISC",
-  "description": "",
+  "description": "Una plataforma web comunitaria para centralizar información sobre prevención e incendios cercanos.",
   "dependencies": {
+    "@libsql/client": "^0.18.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.3",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "sqlite3": "^6.0.1"
   }
 }

@@ -1,0 +1,32 @@
+<%- include('partials/header', { title: noticia.titulo }) %>
+
+<article class="noticia">
+  <h1><%= noticia.titulo %></h1>
+  <p class="meta">
+    <time><%= noticia.fecha %></time>
+    <% if (noticia.categorias.length) { %>
+      · 
+      <% noticia.categorias.forEach((c, i) => { %>
+        <span class="tag"><%= c %></span><% if (i < noticia.categorias.length - 1) { %>, <% } %>
+      <% }) %>
+    <% } %>
+  </p>
+
+  <% if (noticia.imagen) { %>
+    <img class="noticia-img" src="<%= noticia.imagen %>" alt="<%= noticia.titulo %>" />
+  <% } %>
+
+  <div class="contenido">
+    <% noticia.contenido.split('\n').forEach(p => { %>
+      <p><%= p %></p>
+    <% }) %>
+  </div>
+
+  <% if (noticia.enlace) { %>
+    <p><a href="<%= noticia.enlace %>" target="_blank" rel="noopener">Fuente original →</a></p>
+  <% } %>
+
+  <p><a href="/">← Volver al feed</a></p>
+</article>
+
+<%- include('partials/footer') %>

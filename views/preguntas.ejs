@@ -1,0 +1,60 @@
+<%- include('partials/header', { title: 'Preguntas a las autoridades' }) %>
+
+<h1>Preguntas a las autoridades</h1>
+
+<% if (success) { %>
+  <p class="success">✅ Tu pregunta se ha enviado. Aparecerá abajo.</p>
+<% } %>
+
+<% if (user) { %>
+  <section class="nueva-pregunta">
+    <h2>Enviar una pregunta</h2>
+
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+
+    <form method="POST" action="/preguntas" class="form">
+      <label>Tu pregunta
+        <textarea name="pregunta" rows="4" required><%= valores.contenido || '' %></textarea>
+      </label>
+
+      <label>Categoría (opcional)
+        <input type="text" name="categoria" value="<%= valores.categoria || '' %>" placeholder="Prevención, ayudas, actualidad…" />
+      </label>
+
+      <button type="submit">Enviar pregunta</button>
+    </form>
+  </section>
+<% } else { %>
+  <p class="muted">
+    <a href="/login">Inicia sesión</a> o <a href="/registro">crea una cuenta</a> para enviar una pregunta.
+  </p>
+<% } %>
+
+<hr />
+
+<h2>Preguntas recibidas</h2>
+
+<% if (preguntas.length === 0) { %>
+  <p class="empty">Todavía no hay preguntas.</p>
+<% } else { %>
+  <ul class="feed">
+    <% preguntas.forEach(p => { %>
+      <li class="feed-item">
+        <h3>
+          <a href="/pregunta/<%= p.id %>">
+            <%= p.contenido.length > 120 ? p.contenido.slice(0, 120) + '…' : p.contenido %>
+          </a>
+        </h3>
+        <p class="meta">
+          <time><%= p.fecha %></time> · por <strong><%= p.autor %></strong>
+          <% if (p.categoria) { %> · <span class="tag"><%= p.categoria %></span><% } %>
+          · <%= p.n_respuestas %> respuesta<%= Number(p.n_respuestas) === 1 ? '' : 's' %>
+        </p>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<%- include('partials/footer') %>

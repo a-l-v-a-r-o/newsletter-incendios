@@ -1,0 +1,41 @@
+<%- include('../partials/header', { title: 'Nueva noticia' }) %>
+
+<h1>Nueva noticia</h1>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form method="POST" action="/admin/nueva-noticia" class="form">
+  <label>Título *
+    <input type="text" name="titulo" required value="<%= valores.titulo || '' %>" />
+  </label>
+
+  <label>Contenido *
+    <textarea name="contenido" rows="8" required><%= valores.contenido || '' %></textarea>
+  </label>
+
+  <label>Enlace a la fuente (opcional)
+    <input type="url" name="enlace" value="<%= valores.enlace || '' %>" />
+  </label>
+
+  <label>URL de imagen (opcional)
+    <input type="url" name="imagen" value="<%= valores.imagen || '' %>" />
+  </label>
+
+  <fieldset>
+    <legend>Categorías</legend>
+    <% categorias.forEach(c => { %>
+      <label class="checkbox">
+        <input type="checkbox" name="categorias" value="<%= c.id %>" />
+        <%= c.nombre %>
+      </label>
+    <% }) %>
+  </fieldset>
+
+  <button type="submit">Publicar noticia</button>
+</form>
+
+<p><a href="/admin">← Volver al panel</a></p>
+
+<%- include('../partials/footer') %>

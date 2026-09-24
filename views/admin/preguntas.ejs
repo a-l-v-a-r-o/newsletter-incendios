@@ -1,0 +1,55 @@
+<%- include('../partials/header', { title: 'Preguntas' }) %>
+
+<h1>Preguntas recibidas</h1>
+<p><a href="/admin">← Volver al panel</a></p>
+
+<% if (!!success) { %>
+  <p class="success">✅ Pregunta borrada.</p>
+<% } %>
+<% if (!!error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<% if (preguntas.length === 0) { %>
+  <p class="empty">No hay preguntas.</p>
+<% } else { %>
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Autor</th>
+        <th>Pregunta</th>
+        <th>Categoría</th>
+        <th>Resp.</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% preguntas.forEach(p => { %>
+        <tr>
+          <td><%= p.fecha %></td>
+          <td><%= p.autor %></td>
+          <td>
+            <%= p.contenido.length > 80 ? p.contenido.slice(0, 80) + '…' : p.contenido %>
+          </td>
+          <td><%= p.categoria || '—' %></td>
+          <td><%= p.n_respuestas %></td>
+          <td>
+            <a class="btn" href="/admin/preguntas/<%= p.id %>/responder">Responder</a>
+          </td>
+          <td>
+            <form method="POST"
+                  action="/admin/preguntas/<%= p.id %>/borrar"
+                  onsubmit="return confirm('¿Seguro que quieres borrar esta pregunta y todas sus respuestas?');"
+                  style="display:inline">
+              <button type="submit" class="btn-danger">Borrar</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('../partials/footer') %>

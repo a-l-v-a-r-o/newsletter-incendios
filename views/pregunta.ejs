@@ -1,0 +1,34 @@
+<%- include('partials/header', { title: 'Pregunta' }) %>
+
+<article class="pregunta">
+  <h1><%= pregunta.contenido %></h1>
+  <p class="meta">
+    <time><%= pregunta.fecha %></time> · por <strong><%= pregunta.autor %></strong>
+    <% if (pregunta.categoria) { %> · <span class="tag"><%= pregunta.categoria %></span><% } %>
+  </p>
+</article>
+
+<section class="respuestas">
+  <h2>Respuestas (<%= respuestas.length %>)</h2>
+
+  <% if (respuestas.length === 0) { %>
+    <p class="empty">Todavía no hay respuesta a esta pregunta.</p>
+  <% } else { %>
+    <% respuestas.forEach(r => { %>
+      <div class="respuesta">
+        <p class="meta">
+          <strong><%= r.autor %></strong> · <time><%= r.fecha %></time>
+        </p>
+        <div class="contenido">
+          <% r.contenido.split('\n').forEach(p => { %>
+            <p><%= p %></p>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</section>
+
+<p><a href="/preguntas">← Volver a las preguntas</a></p>
+
+<%- include('partials/footer') %>

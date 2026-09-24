@@ -1,0 +1,72 @@
+<%- include('../partials/header', { title: 'Gestión de usuarios' }) %>
+
+<h1>Gestión de usuarios</h1>
+<p><a href="/admin">← Volver al panel</a></p>
+
+<% if (success) { %>
+  <p class="success">✅ Cambios guardados.</p>
+<% } %>
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<section class="crear-usuario">
+  <h2>Crear nuevo usuario</h2>
+  <form method="POST" action="/admin/usuarios/nuevo" class="form-inline">
+    <input type="text" name="nombre" placeholder="Nombre" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Contraseña (mín. 6)" required minlength="6" />
+    <select name="id_rol">
+      <% roles.forEach(r => { %>
+        <option value="<%= r.id %>"><%= r.nombre %></option>
+      <% }) %>
+    </select>
+    <button type="submit">Crear</button>
+  </form>
+</section>
+
+<h2>Usuarios registrados</h2>
+
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Rol actual</th>
+      <th>Registrado</th>
+      <th>Cambiar rol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% usuarios.forEach(u => { %>
+      <tr>
+        <td><%= u.id %></td>
+        <td><%= u.nombre %></td>
+        <td><%= u.email %></td>
+        <td>
+          <% if (u.rol) { %>
+            <span class="tag"><%= u.rol %></span>
+          <% } else { %>
+            <span class="muted">sin rol</span>
+          <% } %>
+        </td>
+        <td><%= u.fecha_registro %></td>
+        <td>
+          <form method="POST" action="/admin/usuarios/<%= u.id %>/rol" class="form-inline">
+            <select name="id_rol">
+              <% roles.forEach(r => { %>
+                <option value="<%= r.id %>" <%= Number(u.id_rol) === Number(r.id) ? 'selected' : '' %>>
+                  <%= r.nombre %>
+                </option>
+              <% }) %>
+            </select>
+            <button type="submit">Guardar</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

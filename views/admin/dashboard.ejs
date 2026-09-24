@@ -1,0 +1,29 @@
+<%- include('../partials/header', { title: 'Panel de admin' }) %>
+
+<h1>Panel de administración</h1>
+<p>Hola, <strong><%= user.nombre %></strong>.</p>
+
+<ul class="admin-stats">
+  <li>Noticias publicadas: <strong><%= totalNoticias %></strong></li>
+  <li>Preguntas recibidas: <strong><%= totalPreguntas %></strong></li>
+</ul>
+
+<p>
+  <a class="btn" href="/admin/nueva-noticia">+ Nueva noticia</a>
+</p>
+
+<% if (puede('usuario.gestionar')) { %>
+  <a class="btn-secondary" href="/admin/usuarios">Gestionar usuarios</a>
+<% } %>
+<% if (puede('pregunta.responder')) { %>
+  <a class="btn-secondary" href="/admin/preguntas">Preguntas recibidas</a>
+<% } %>
+<% if (puede('noticia.crear')) { %>
+  <a class="btn-secondary" href="/admin/noticias">Ver todas las noticias</a>
+<% } %>
+
+<form method="POST" action="/logout" class="logout-form">
+  <button type="submit" class="btn-secondary">Cerrar sesión</button>
+</form>
+
+<%- include('../partials/footer') %>

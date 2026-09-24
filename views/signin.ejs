@@ -1,0 +1,31 @@
+<%- include('partials/header', { title: 'Crear cuenta' }) %>
+
+<h1>Crear cuenta</h1>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form method="POST" action="/signin" class="form">
+  <label>Nombre
+    <input type="text" name="nombre" required value="<%= valores.nombre || '' %>" />
+  </label>
+
+  <label>Email
+    <input type="email" name="email" required value="<%= valores.email || '' %>" />
+  </label>
+
+  <label>Contraseña
+    <input type="password" name="password" required minlength="6" />
+  </label>
+
+  <label>Repetir contraseña
+    <input type="password" name="password2" required minlength="6" />
+  </label>
+
+  <button type="submit">Crear cuenta</button>
+</form>
+
+<p class="muted">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>.</p>
+
+<%- include('partials/footer') %>

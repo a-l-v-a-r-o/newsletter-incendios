@@ -1,0 +1,42 @@
+<%- include('../partials/header', { title: 'Responder pregunta' }) %>
+
+<h1>Responder pregunta</h1>
+
+<article class="pregunta">
+  <p class="meta">
+    <strong><%= pregunta.autor %></strong> · <time><%= pregunta.fecha %></time>
+    <% if (pregunta.categoria) { %> · <span class="tag"><%= pregunta.categoria %></span><% } %>
+  </p>
+  <p><%= pregunta.contenido %></p>
+</article>
+
+<section class="respuestas">
+  <h2>Respuestas existentes (<%= respuestas.length %>)</h2>
+  <% if (respuestas.length === 0) { %>
+    <p class="empty">Sin respuestas todavía.</p>
+  <% } else { %>
+    <% respuestas.forEach(r => { %>
+      <div class="respuesta">
+        <p class="meta"><strong><%= r.autor %></strong> · <time><%= r.fecha %></time></p>
+        <p><%= r.contenido %></p>
+      </div>
+    <% }) %>
+  <% } %>
+</section>
+
+<h2>Añadir respuesta</h2>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form method="POST" action="/admin/preguntas/<%= pregunta.id %>/responder" class="form">
+  <label>Respuesta
+    <textarea name="contenido" rows="6" required></textarea>
+  </label>
+  <button type="submit">Publicar respuesta</button>
+</form>
+
+<p><a href="/admin/preguntas">← Volver a la lista</a></p>
+
+<%- include('../partials/footer') %>

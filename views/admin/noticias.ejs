@@ -1,0 +1,52 @@
+<%- include('../partials/header', { title: 'Noticias' }) %>
+
+<h1>Noticias publicadas</h1>
+<p>
+  <a href="/admin">← Volver al panel</a> · 
+  <a class="btn" href="/admin/nueva-noticia">+ Nueva noticia</a>
+</p>
+
+<% if (success) { %>
+  <p class="success">✅ Noticia borrada.</p>
+<% } %>
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<% if (noticias.length === 0) { %>
+  <p class="empty">No hay noticias.</p>
+<% } else { %>
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Autor</th>
+        <th>Título</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% noticias.forEach(n => { %>
+        <tr>
+          <td><%= n.fecha %></td>
+          <td><%= n.autor || '—' %></td>
+          <td><%= n.titulo %></td>
+          <td><a class="btn" href="/noticia/<%= n.id %>">Ver</a></td>
+          <td>
+            <% if (puede('noticia.borrar')) { %>
+            <form method="POST"
+                  action="/admin/noticias/<%= n.id %>/borrar"
+                  onsubmit="return confirm('¿Seguro que quieres borrar esta noticia?');"
+                  style="display:inline">
+              <button type="submit" class="btn-danger">Borrar</button>
+            </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('../partials/footer') %>

@@ -1,4 +1,35 @@
 node_modules/
 .env
-*.db
+.env.local
+.env.*.local
+
 caracteristicas.md
+MPV.md
+TODO.md
+
+# Base de datos local
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.db-wal
+*.db-shm
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.pid
+*.seed
+# Caché de build / cobertura
+.cache/
+coverage/
+dist/
+build/
+.next/
+.nuxt/
+# Archivos temporales
+tmp/
+temp/
+*.tmp
