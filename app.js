@@ -86,7 +86,7 @@ app.use((req, res, next) => {
   }
 
   app.listen(PORT, () => {
-    if (PORT === 3000 || process.env.NODE_ENV !== 'production') {
+    if (PORT === 3000) {
       console.log(`Servidor en http://localhost:${PORT}`);
     } else {
     console.log(`${PORT}`);
