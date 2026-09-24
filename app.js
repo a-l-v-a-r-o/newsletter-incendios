@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
 const db = require('./database/db');
 const { cargarCache } = require('./utils/permisos');
 
@@ -21,12 +23,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
+app.set('trust proxy', 1);
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }, // 1 día
+  cookie: { httpOnly: true, secure: true,  sameSite: 'lax', maxAge: 1000 * 60 * 60 * 24 }, // 1 día
 }));
+
+app.use(helmet());
+app.use(compression());
 
 // Pasar el usuario logueado a TODAS las vistas
 app.use((req, res, next) => {
@@ -60,7 +66,11 @@ app.use('/', preguntasRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send('Error interno del servidor');
+  const status = err.statusCode || 500;
+  const message = process.env.NODE_ENV === 'production'
+    ? 'Error interno del servidor'
+    : err.message;
+  res.status(status).send(message);
 });
 
 app.use((req, res, next) => {
@@ -76,6 +86,10 @@ app.use((req, res, next) => {
   }
 
   app.listen(PORT, () => {
-    console.log(`Servidor en http://localhost:${PORT}`);
+    if (PORT === 3000 || process.env.NODE_ENV !== 'production') {
+      console.log(`Servidor en http://localhost:${PORT}`);
+    } else {
+    console.log(`${PORT}`);
+    }
   });
 })();
