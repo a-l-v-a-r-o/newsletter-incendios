@@ -1,6 +1,50 @@
-  </main>
+    </main>
   <footer class="site-footer">
-    <p>© <%= new Date().getFullYear() %> Newsletter de Incendios Locales</p>
+    <div class="footer-content">
+      <div class="footer-section">
+        <p>Información comunitaria sobre incendios, prevención y ayudas.</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/aviso-legal">Aviso legal</a></li>
+          <li><a href="/privacidad">Política de privacidad</a></li>
+          <li><a href="/cookies">Política de cookies</a></li>
+          <li><a href="/contacto">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Proyecto</h4>
+        <ul>
+          <li>
+            <a href="https://github.com/a-l-v-a-r-o/newsletter-incendios.git"
+               target="_blank" rel="noopener noreferrer">
+              Código en GitHub
+            </a>
+          </li>
+          <li>
+            Licencia:
+            <a href="https://opensource.org/licenses/MIT"
+               target="_blank" rel="noopener noreferrer">
+              MIT
+            </a>
+          </li>
+          <li>Versión: <%= version %></li>
+          <li>Última actualización: <%= lastUpdate %></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-emergencia">
+      ⚠️ <strong>En caso de emergencia, llama al 112.</strong>
+      Esta web no sustituye a los servicios oficiales.
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <%= new Date().getFullYear() %> Newsletter de Incendios Locales</p>
+    </div>
   </footer>
 </body>
 </html>
