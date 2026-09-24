@@ -5,14 +5,15 @@ const session = require('express-session');
 const path = require('path');
 const helmet = require('helmet');
 const compression = require('compression');
+
 const db = require('./database/db');
 const { cargarCache } = require('./utils/permisos');
-
-
+const pkg = require('./package.json');
 const noticiasRouter = require('./routes/noticias');
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const preguntasRouter = require('./routes/preguntas');
+const legalRouter = require('./routes/legal');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -59,6 +60,14 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Variables globales para todas las vistas
+app.use((req, res, next) => {
+  res.locals.version = pkg.version;
+  res.locals.contactoEmail = 'alvaropherez01@gmail.com';
+  res.locals.lastUpdate = '25 de septiembre de 2026'; // actualízalo cuando cambies textos legales
+  next();
+});
+app.use('/', legalRouter);
 app.use('/', noticiasRouter);
 app.use('/', authRouter);
 app.use('/admin', adminRouter);

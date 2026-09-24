@@ -1,6 +1,6 @@
 {
   "name": "newsletter-incendios",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "alvaro",
-  "license": "ISC",
+  "license": "MIT",
   "description": "Una plataforma web comunitaria para centralizar información sobre prevención e incendios cercanos.",
   "dependencies": {
     "@libsql/client": "^0.18.0",

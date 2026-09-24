@@ -1,0 +1,28 @@
+<%- include('../partials/header', { title: 'Contacto' }) %>
+
+<h1>Contacto</h1>
+
+<p>
+  Para consultas, sugerencias, reportes de contenido inapropiado o cualquier
+  otro asunto relacionado con este sitio, puedes escribirnos a:
+</p>
+
+<p class="contacto-email">
+  <a href="mailto:<%= contactoEmail %>"><%= contactoEmail %></a>
+</p>
+
+<h2>Otros canales</h2>
+<ul>
+  <li>
+    <strong>Repositorio del proyecto:</strong>
+    <a href="https://github.com/a-l-v-a-r-o/newsletter-incendios.git" target="_blank" rel="noopener noreferrer">GitHub</a>
+    (para reportar errores tecnicos)
+  </li>
+</ul>
+
+<div class="aviso-emergencia-grande">
+  <strong>Para emergencias reales, llama al 112.</strong>
+  Este formulario de contacto no es un canal de emergencias.
+</div>
+
+<%- include('../partials/footer') %>
