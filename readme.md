@@ -11,6 +11,7 @@ De momento un usuario puede leer las noticias que se suben, escribir preguntas, 
 Para respondeer a las preguntas hay que tener un acceso de administrador.
 
 #Por hacer:
+ -Adaptar pantallas verticales y hacer testing en telefonos moviles.
  -Implementar una mejor interfaz, sobretodo para las noticias.
  -Añadir un foro
  -Mejorar la UI
