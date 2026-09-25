@@ -32,7 +32,13 @@ app.use(session({
   cookie: { httpOnly: true, secure: true,  sameSite: 'lax', maxAge: 1000 * 60 * 60 * 24 }, // 1 día
 }));
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      imgSrc: ["'self'", 'data:', 'https:'],
+    },
+  },
+}));
 app.use(compression());
 
 // Pasar el usuario logueado a TODAS las vistas
