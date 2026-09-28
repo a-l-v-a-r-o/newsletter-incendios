@@ -29,4 +29,119 @@
   <p><a href="/">← Volver al feed</a></p>
 </article>
 
+<section id="comentarios" class="comentarios">
+  <h2>Comentarios (<%= comentarios.length %>)</h2>
+
+  <% if (user) { %>
+    <form method="POST" action="/noticia/<%= noticia.id %>/comentar" class="form">
+      <label>Escribe un comentario
+        <textarea name="contenido" rows="3" required
+                  placeholder="Tu comentario..."></textarea>
+      </label>
+      <button type="submit">Publicar comentario</button>
+    </form>
+  <% } else { %>
+    <p class="muted">
+      <a href="/login">Inicia sesión</a> o <a href="/registro">crea una cuenta</a>
+      para comentar.
+    </p>
+  <% } %>
+
+  <% if (comentarios.length === 0) { %>
+    <p class="empty">Todavía no hay comentarios.</p>
+  <% } else { %>
+    <ul class="lista-comentarios">
+      <% comentarios.forEach(c => { %>
+        <li class="comentario" id="comentario-<%= c.id %>">
+  <p class="meta">
+    <strong><%= c.autor %></strong> · <time><%= c.fecha %></time>
+  </p>
+
+  <% if (Number(c.eliminado) === 1) { %>
+    <p class="contenido-comentario muted"><em>[comentario eliminado]</em></p>
+  <% } else { %>
+    <p class="contenido-comentario"><%= c.contenido %></p>
+  <% } %>
+
+  <% if (Number(c.eliminado) !== 1) { %>
+    <% if (user && Number(user.id) === Number(c.id_autor)) { %>
+      <form method="POST" action="/comentario/<%= c.id %>/borrar"
+        data-confirm="¿Borrar tu comentario?"
+            style="display:inline">
+        <button type="submit" class="btn-mini">Borrar mi comentario</button>
+      </form>
+    <% } else if (user && puede && puede('foro.moderar')) { %>
+      <form method="POST" action="/admin/comentarios/<%= c.id %>/borrar"
+        data-confirm="¿Borrar este comentario?"
+            style="display:inline">
+        <button type="submit" class="btn-mini">Borrar comentario</button>
+      </form>
+    <% } %>
+  <% } %>
+  <% if (user && puede && puede('foro.moderar')) { %>
+      <form method="POST" action="/admin/comentarios/<%= c.id %>/eliminar"
+        data-confirm="Eliminar este comentario y sus respuestas?"
+            style="display:inline">
+        <button type="submit" class="btn-mini">ELIMINAR todo (admin)</button>
+      </form>
+    <% } %>
+
+  <% if (user && Number(c.eliminado) !== 1) { %>
+    <details class="responder">
+      <summary>Responder</summary>
+      <form method="POST" action="/comentario/<%= c.id %>/responder" class="form">
+        <textarea name="contenido" rows="2" required
+                  placeholder="Tu respuesta..."></textarea>
+        <button type="submit">Responder</button>
+      </form>
+    </details>
+  <% } %>
+
+  <% if (c.respuestas && c.respuestas.length > 0) { %>
+    <ul class="lista-respuestas">
+      <% c.respuestas.forEach(r => { %>
+        <li class="respuesta-comentario" id="comentario-<%= r.id %>">
+          <p class="meta">
+            <strong><%= r.autor %></strong> · <time><%= r.fecha %></time>
+          </p>
+
+          <% if (Number(r.eliminado) === 1) { %>
+            <p class="contenido-comentario muted"><em>[respuesta eliminada]</em></p>
+          <% } else { %>
+            <p class="contenido-comentario"><%= r.contenido %></p>
+          <% } %>
+
+          <% if (Number(r.eliminado) !== 1) { %>
+            <% if (user && Number(user.id) === Number(r.id_autor)) { %>
+              <form method="POST" action="/comentario/<%= r.id %>/borrar"
+                  data-confirm="¿Borrar tu respuesta?"
+                    style="display:inline">
+                <button type="submit" class="btn-mini">Borrar mi respuesta</button>
+              </form>
+            <% } else if (user && puede && puede('foro.moderar')) { %>
+      <form method="POST" action="/admin/comentarios/<%= c.id %>/borrar"
+        data-confirm="¿Borrar esta respuesta?"
+            style="display:inline">
+        <button type="submit" class="btn-mini">Borrar respuesta</button>
+      </form>
+    <% } %>
+          <% } %>
+          <% if (user && puede && puede('foro.moderar')) { %>
+      <form method="POST" action="/admin/comentarios/<%= c.id %>/eliminar"
+        data-confirm="¿Eliminar esta respuesta y sus respuestas?"
+            style="display:inline">
+        <button type="submit" class="btn-mini">ELIMINAR todo (admin)</button>
+      </form>
+    <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+
+<script src="/js/confirm-forms.js" defer></script>
 <%- include('partials/footer') %>

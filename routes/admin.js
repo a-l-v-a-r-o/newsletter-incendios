@@ -460,4 +460,60 @@ router.post('/usuarios/:id/borrar', requirePermiso('usuario.gestionar'), async (
   }
 });
 
+router.post('/comentarios/:id/borrar', requirePermiso('foro.moderar'), async (req, res, next) => {
+  const id = Number(req.params.id);
+
+  try {
+    const c = await db.execute({
+      sql: 'SELECT id_noticia FROM comentario WHERE id = ?',
+      args: [id],
+    });
+    if (c.rows.length === 0) {
+      return res.status(404).send('Comentario no encontrado');
+    }
+    const idNoticia = Number(c.rows[0].id_noticia);
+
+    // Borrar el comentario y sus respuestas (por si no hay CASCADE)
+    //soft delete
+    await db.execute({
+      sql: 'UPDATE comentario SET eliminado = 1 WHERE id = ?',
+      args: [id],
+    });
+
+    return res.redirect(`/noticia/${idNoticia}#comentarios`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//Eliminar todos los comentarios y respuestas de una noticia 
+router.post('/comentarios/:id/eliminar', requirePermiso('foro.moderar'), async (req, res, next) => {
+  const id = Number(req.params.id);
+
+  try {
+    const c = await db.execute({
+      sql: 'SELECT id_noticia FROM comentario WHERE id = ?',
+      args: [id],
+    });
+    if (c.rows.length === 0) {
+      return res.status(404).send('Comentario no encontrado');
+    }
+    const idNoticia = Number(c.rows[0].id_noticia);
+
+    // Borrar el comentario y sus respuestas (por si no hay CASCADE)
+    await db.execute({
+      sql: 'DELETE FROM comentario WHERE id_padre = ?',
+      args: [id],
+    });
+    await db.execute({
+      sql: 'DELETE FROM comentario WHERE id = ?',
+      args: [id],
+    });
+
+    return res.redirect(`/noticia/${idNoticia}#comentarios`);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

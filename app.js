@@ -14,6 +14,7 @@ const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const preguntasRouter = require('./routes/preguntas');
 const legalRouter = require('./routes/legal');
+const comentariosRouter = require('./routes/comentarios');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,7 +30,12 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, secure: true,  sameSite: 'lax', maxAge: 1000 * 60 * 60 * 24 }, // 1 día
+  cookie: {
+    httpOnly: true,
+    secure: 'auto',
+    sameSite: 'lax',
+    maxAge: 1000 * 60 * 60 * 24,
+  },
 }));
 
 app.use(helmet({
@@ -78,6 +84,7 @@ app.use('/', noticiasRouter);
 app.use('/', authRouter);
 app.use('/admin', adminRouter);
 app.use('/', preguntasRouter);
+app.use('/', comentariosRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

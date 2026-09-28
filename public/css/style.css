@@ -374,3 +374,81 @@ hr { border: none; border-top: 1px solid #ddd; margin: 2rem 0; }
   border-left: 4px solid #f0ad4e;
   margin-top: 2rem;
 }
+
+.comentarios {
+  margin-top: 3rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.lista-comentarios {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+
+.comentario {
+  border-top: 1px solid #eee;
+  padding: 1rem 0;
+}
+
+.comentario:first-child {
+  border-top: none;
+}
+
+.contenido-comentario {
+  margin: .4rem 0 .8rem;
+}
+
+.responder {
+  margin-top: .5rem;
+}
+
+.responder summary {
+  cursor: pointer;
+  color: #b3261e;
+  font-size: .9rem;
+  user-select: none;
+}
+
+.responder[open] summary {
+  margin-bottom: .5rem;
+}
+
+.lista-respuestas {
+  list-style: none;
+  padding: 0;
+  margin: .8rem 0 0 2rem;
+  border-left: 3px solid #f0ad4e;
+}
+
+.respuesta-comentario {
+  padding: .6rem 0 .6rem 1rem;
+}
+
+.respuesta-comentario .meta {
+  font-size: .8rem;
+}
+
+.comentarios .form {
+  background: #fafafa;
+  padding: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.comentarios .form textarea {
+  min-height: 60px;
+}
+
+.muted {
+  color: #888;
+}
+
+.contenido-comentario.muted em {
+  font-style: italic;
+}
+
+.btn-mini + .btn-mini {
+  margin-left: .4rem;
+}
